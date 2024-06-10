@@ -5,6 +5,7 @@ plt.style.use('dark_background')
 radioTerreste = 6378.0 # km	
 parametroGravitacionalTerrestre = 3.9860043543609598E+5 # km^3/s^2
 
+# Modelos matemáticos
 def ecuacionDiferencialParaDosCuerpos(t, estado):
     # vector posición con 3 componentes
     r = estado[:3]
@@ -22,6 +23,7 @@ def rungeKutta4Paso(f, t, y, dt):
     
     return y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
+# Modelos de visualización
 def simularOrbita(rs, args):
     _args = {
         'figsize': (10, 8),
@@ -181,7 +183,7 @@ if __name__ == '__main__':
     r0_norma = radioTerreste + 2500.0 # km
     v0_norma = (parametroGravitacionalTerrestre / r0_norma) ** 0.5 # km/s    
     # Definir estado inicial con posición y velocidad normalizadas
-    estadoInicial = np.array([r0_norma, 0.0, 0.0, 0.0, v0_norma, 0.0])
+    estadoInicial = np.array([r0_norma, 0.0, 0.0, 0.0, v0_norma*1.1, 4.0])
     # Definir tiempo de propagación
     tiempoPropagacion = 100.0 * 360.0 # s
     dt = 100.0 # s
