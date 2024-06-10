@@ -13,6 +13,7 @@ def ecuacionDiferencialParaDosCuerpos(t, estado):
     # Aceleracion obtenida con la Ley de gravitación universal de Newton
     a = -parametroGravitacionalTerrestre * r / np.linalg.norm(r)**3
     
+    # Retornar vector de estado con 3 componentes de velocidad y 3 de aceleración
     return np.array([estado[3], estado[4], estado[5], a[0], a[1], a[2]])
 
 def rungeKutta4Paso(f, t, y, dt):
@@ -21,6 +22,7 @@ def rungeKutta4Paso(f, t, y, dt):
     k3 = f(t + dt/2, y + dt/2 * k2)
     k4 = f(t + dt, y + k3 * dt )
     
+    # Retornar pendiente promedio ponderada por el paso de tiempo
     return y + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
 # Modelos de visualización
@@ -180,6 +182,7 @@ def graficarCinematica(t, estados):
 
 # Bloque de ejecución
 if __name__ == '__main__':
+    # Definir distancia y velocidad normalizadas
     r0_norma = radioTerreste + 2500.0 # km
     v0_norma = (parametroGravitacionalTerrestre / r0_norma) ** 0.5 # km/s    
     # Definir estado inicial con posición y velocidad normalizadas
