@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import multiprocessing as mp
+
 plt.style.use('dark_background')
 
 radioTerreste = 6378.0 # km	
@@ -178,7 +180,13 @@ def graficarCinematica(t, estados):
     axs[2].legend(loc='upper right')
 
     plt.tight_layout()
-    plt.show()     
+    plt.show()
+
+def simular_orbita_wrapper(estados):
+    simularOrbita([estados], {'show': True})
+
+def graficar_cinematica_wrapper(ets, estados):
+    graficarCinematica(ets.flatten(), estados)
 
 # Bloque de ejecución
 if __name__ == '__main__':
@@ -206,5 +214,15 @@ if __name__ == '__main__':
         ets[paso + 1] = ets[paso] + dt
     
     print(estados)
-    simularOrbita([estados], {'show': True})
-    graficarCinematica(ets.flatten(), estados)
+    
+    # Crear procesos para las gráficas
+    p1 = mp.Process(target=simular_orbita_wrapper, args=(estados,))
+    p2 = mp.Process(target=graficar_cinematica_wrapper, args=(ets, estados))
+    
+    # Iniciar los procesos
+    p1.start()
+    p2.start()
+    
+    # Esperar a que los procesos terminen
+    p1.join()
+    p2.join()
